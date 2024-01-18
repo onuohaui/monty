@@ -36,7 +36,7 @@ typedef struct instruction_s
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
-/* Function prototypes */
+/* Function prototypes for opcode functions */
 void op_push(stack_t **stack, unsigned int line_number, char *arg);
 void op_pall(stack_t **stack, unsigned int line_number);
 void op_pint(stack_t **stack, unsigned int line_number);
@@ -45,6 +45,13 @@ void op_swap(stack_t **stack, unsigned int line_number);
 void op_add(stack_t **stack, unsigned int line_number);
 void op_nop(stack_t **stack, unsigned int line_number);
 int is_number(char *str);
+
+/* Utility function prototypes */
 void free_stack(stack_t **stack);
+
+/* New function prototypes for main.c refactoring */
+void open_file(char *filename, FILE **file);
+void process_lines(FILE *file, stack_t **stack);
+void clean_up(stack_t **stack, FILE *file, int status);
 
 #endif /* MONTY_H */

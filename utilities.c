@@ -28,7 +28,7 @@ void free_stack(stack_t **stack)
 int is_number(char *str)
 {
 	if (*str == '-' ||
-		*str == '+')
+			*str == '+')
 		str++;
 	while (*str)
 	{

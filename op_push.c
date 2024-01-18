@@ -1,27 +1,6 @@
 #include "monty.h"
 
 /**
- * is_number - Check if a string is a number.
- * @str: The string to check.
- *
- * Return: 1 if string is a number, 0 otherwise.
- */
-int is_number(char *str)
-{
-
-	if (*str == '-' ||
-		*str == '+')
-		str++;
-	while (*str)
-	{
-		if (!isdigit(*str))
-			return (0);
-		str++;
-	}
-	return (1);
-}
-
-/**
  * op_push - Pushes an element to the stack.
  * @stack: Double pointer to the head of the stack.
  * @line_number: The line number of the current operation.
