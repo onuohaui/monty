@@ -1,7 +1,8 @@
 #include "monty.h"
 
 /**
- * op_pall - Prints all the values on the stack, starting from the top.
+ * op_pall - Prints all the values on the
+ * stack, starting from the top.
  * @stack: Double pointer to the head of the stack.
  * @line_number: The line number of the current operation.
  */
@@ -18,7 +19,8 @@ void op_pall(stack_t **stack, unsigned int line_number)
 }
 
 /**
- * op_pint - Prints the value at the top of the stack, followed by a new line.
+ * op_pint - Prints the value at the top of
+ * the stack, followed by a new line.
  * @stack: Double pointer to the head of the stack.
  * @line_number: The line number of the current operation.
  */

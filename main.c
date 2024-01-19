@@ -76,6 +76,10 @@ void process_lines(FILE *file, stack_t **stack)
 		{
 			op_pall(stack, line_number);
 		}
+		else if (strcmp(opcode, "pint") ==0)
+		{
+			op_pint(stack, line_number);
+		}
 		else
 		{
 			fprintf(stderr, "L%d: unknown instruction %s\n", line_number, opcode);
