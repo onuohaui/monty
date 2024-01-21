@@ -76,9 +76,13 @@ void process_lines(FILE *file, stack_t **stack)
 		{
 			op_pall(stack, line_number);
 		}
-		else if (strcmp(opcode, "pint") ==0)
+		else if (strcmp(opcode, "pint") == 0)
 		{
 			op_pint(stack, line_number);
+		}
+		else if (strcmp(opcode, "pop") == 0)
+		{
+			op_pop(stack, line_number);
 		}
 		else
 		{
