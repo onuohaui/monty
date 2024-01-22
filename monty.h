@@ -36,16 +36,30 @@ typedef struct instruction_s
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
+/**
+ * enum mode_e - Operation mode of the Monty interpreter
+ * @STACK_MODE: Stack mode
+ * @QUEUE_MODE: Queue mode
+ */
 typedef enum mode_e
 {
 	STACK_MODE,
 	QUEUE_MODE
 } mode_t;
 
-extern mode_t mode;  /*Define the mode as a global variable*/
+/**
+ * struct stack_info_s - Holds the stack and mode information
+ * @stack: The stack
+ * @mode: The mode (STACK_MODE or QUEUE_MODE)
+ */
+typedef struct stack_info_s
+{
+	stack_t *stack;
+	mode_t mode;
+} stack_info_t;
 
 /* Function prototypes for opcode functions */
-void op_push(stack_t **stack, unsigned int line_number, char *arg);
+void op_push(stack_info_t *info, unsigned int line_number, char *arg);
 void op_pall(stack_t **stack, unsigned int line_number);
 void op_pint(stack_t **stack, unsigned int line_number);
 void op_pop(stack_t **stack, unsigned int line_number);
@@ -61,15 +75,16 @@ void op_pchar(stack_t **stack, unsigned int line_number);
 void op_pstr(stack_t **stack, unsigned int line_number);
 void op_rotl(stack_t **stack, unsigned int line_number);
 void op_rotr(stack_t **stack, unsigned int line_number);
-void op_stack(stack_t **stack, unsigned int line_number);
-void op_queue(stack_t **stack, unsigned int line_number);
+void op_stack(stack_info_t *info, unsigned int line_number);
+void op_queue(stack_info_t *info, unsigned int line_number);
 
 /* Utility function prototypes */
 void free_stack(stack_t **stack);
+void clean_up(stack_t **stack, FILE *file, int status);
 
 /* New function prototypes for main.c refactoring */
 void open_file(char *filename, FILE **file);
-void process_lines(FILE *file, stack_t **stack);
-void clean_up(stack_t **stack, FILE *file, int status);
+void process_lines(FILE *file, stack_info_t *info);
 
 #endif /* MONTY_H */
+

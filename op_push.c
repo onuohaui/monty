@@ -1,12 +1,14 @@
 #include "monty.h"
 
+void add_to_queue(stack_t **stack, stack_t *new_node);
+
 /**
- * op_push - Pushes an element to the stack.
- * @stack: Double pointer to the head of the stack.
+ * op_push - Pushes an element to the stack or queue based on the current mode.
+ * @info: Pointer to the stack and mode information.
  * @line_number: The line number of the current operation.
  * @arg: The argument to push.
  */
-void op_push(stack_t **stack, unsigned int line_number, char *arg)
+void op_push(stack_info_t *info, unsigned int line_number, char *arg)
 {
 	int num;
 	stack_t *new_node;
@@ -27,10 +29,37 @@ void op_push(stack_t **stack, unsigned int line_number, char *arg)
 
 	new_node->n = num;
 	new_node->prev = NULL;
-	new_node->next = *stack;
-	if (*stack != NULL)
+	new_node->next = NULL;
+
+	if (info->mode == QUEUE_MODE && info->stack != NULL)
 	{
-		(*stack)->prev = new_node;
+		add_to_queue(&info->stack, new_node);
 	}
-	*stack = new_node;
+	else
+	{
+		/* Add to the top of the stack */
+		new_node->next = info->stack;
+		if (info->stack != NULL)
+		{
+			info->stack->prev = new_node;
+		}
+		info->stack = new_node;
+	}
+}
+
+/**
+ * add_to_queue - Adds a new node to the end of the queue.
+ * @stack: Double pointer to the head of the stack.
+ * @new_node: The new node to add.
+ */
+void add_to_queue(stack_t **stack, stack_t *new_node)
+{
+	stack_t *temp = *stack;
+
+	while (temp->next != NULL)
+	{
+		temp = temp->next;
+	}
+	temp->next = new_node;
+	new_node->prev = temp;
 }

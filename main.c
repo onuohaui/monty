@@ -1,8 +1,8 @@
 #include "monty.h"
 
 void open_file(char *filename, FILE **file);
-void process_lines(FILE *file, stack_t **stack);
-
+void process_lines(FILE *file, stack_info_t *info);
+void clean_up(stack_t **stack, FILE *file, int status);
 
 /**
  * main - Entry point of the Monty ByteCode interpreter.
@@ -14,7 +14,7 @@ void process_lines(FILE *file, stack_t **stack);
 int main(int argc, char *argv[])
 {
 	FILE *file = NULL;
-	stack_t *stack = NULL;
+	stack_info_t info = {NULL, STACK_MODE};
 
 	if (argc != 2)
 	{
@@ -23,8 +23,8 @@ int main(int argc, char *argv[])
 	}
 
 	open_file(argv[1], &file);
-	process_lines(file, &stack);
-	clean_up(&stack, file, EXIT_SUCCESS);
+	process_lines(file, &info);
+	clean_up(&info.stack, file, EXIT_SUCCESS);
 
 	return (EXIT_SUCCESS);
 }
@@ -32,8 +32,7 @@ int main(int argc, char *argv[])
 /**
  * open_file - Opens a file for reading.
  * @filename: The name of the file to be opened.
- * @file: Double pointer to the file
- * structure where the opened file will be stored.
+ * @file: Double pointer to the file structure where the opened file will be stored.
  */
 void open_file(char *filename, FILE **file)
 {
@@ -46,12 +45,11 @@ void open_file(char *filename, FILE **file)
 }
 
 /**
- * process_lines - Processes each line of the
- * opened Monty bytecode file.
+ * process_lines - Processes each line of the opened Monty bytecode file.
  * @file: Pointer to the opened file.
- * @stack: Double pointer to the top of the stack.
+ * @info: Pointer to the stack and mode information.
  */
-void process_lines(FILE *file, stack_t **stack)
+void process_lines(FILE *file, stack_info_t *info)
 {
 	char line[1024];
 	unsigned int line_number = 0;
@@ -62,7 +60,7 @@ void process_lines(FILE *file, stack_t **stack)
 		line_number++;
 		opcode = strtok(line, " \t\n");
 
-		/*Check if the line is a comment or empty*/
+		/* Check if the line is a comment or empty */
 		if (opcode == NULL || opcode[0] == '#')
 		{
 			continue;
@@ -71,76 +69,76 @@ void process_lines(FILE *file, stack_t **stack)
 
 		if (strcmp(opcode, "push") == 0)
 		{
-			op_push(stack, line_number, arg);
+			op_push(info, line_number, arg);
 		}
 		else if (strcmp(opcode, "pall") == 0)
 		{
-			op_pall(stack, line_number);
+			op_pall(&info->stack, line_number);
 		}
 		else if (strcmp(opcode, "pint") == 0)
 		{
-			op_pint(stack, line_number);
+			op_pint(&info->stack, line_number);
 		}
 		else if (strcmp(opcode, "pop") == 0)
 		{
-			op_pop(stack, line_number);
+			op_pop(&info->stack, line_number);
 		}
 		else if (strcmp(opcode, "swap") == 0)
 		{
-			op_swap(stack, line_number);
+			op_swap(&info->stack, line_number);
 		}
 		else if (strcmp(opcode, "add") == 0)
 		{
-			op_add(stack, line_number);
+			op_add(&info->stack, line_number);
 		}
 		else if (strcmp(opcode, "nop") == 0)
 		{
-			op_nop(stack, line_number);
+			op_nop(&info->stack, line_number);
 		}
 		else if (strcmp(opcode, "sub") == 0)
 		{
-			op_sub(stack, line_number);
+			op_sub(&info->stack, line_number);
 		}
 		else if (strcmp(opcode, "div") == 0)
 		{
-			op_div(stack, line_number);
+			op_div(&info->stack, line_number);
 		}
 		else if (strcmp(opcode, "mul") == 0)
 		{
-			op_mul(stack, line_number);
+			op_mul(&info->stack, line_number);
 		}
 		else if (strcmp(opcode, "mod") == 0)
 		{
-			op_mod(stack, line_number);
+			op_mod(&info->stack, line_number);
 		}
 		else if (strcmp(opcode, "pchar") == 0)
 		{
-			op_pchar(stack, line_number);
+			op_pchar(&info->stack, line_number);
 		}
 		else if (strcmp(opcode, "pstr") == 0)
 		{
-			op_pstr(stack, line_number);
+			op_pstr(&info->stack, line_number);
 		}
 		else if (strcmp(opcode, "rotl") == 0)
 		{
-			op_rotl(stack, line_number);
+			op_rotl(&info->stack, line_number);
 		}
 		else if (strcmp(opcode, "rotr") == 0)
 		{
-			op_rotr(stack, line_number);
+			op_rotr(&info->stack, line_number);
 		}
 		else if (strcmp(opcode, "stack") == 0)
 		{
-			op_stack(stack, line_number);
+			op_stack(info, line_number);
 		}
 		else if (strcmp(opcode, "queue") == 0)
 		{
-			op_queue(stack, line_number);
+			op_queue(info, line_number);
 		}
 		else
 		{
 			fprintf(stderr, "L%d: unknown instruction %s\n", line_number, opcode);
-			clean_up(stack, file, EXIT_FAILURE);
+			clean_up(&info->stack, file, EXIT_FAILURE);
 		}
 	}
 }
