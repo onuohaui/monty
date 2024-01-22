@@ -117,6 +117,10 @@ void process_lines(FILE *file, stack_t **stack)
 		{
 			op_pchar(stack, line_number);
 		}
+		else if (strcmp(opcode, "pstr") == 0)
+		{
+			op_pstr(stack, line_number);
+		}
 		else
 		{
 			fprintf(stderr, "L%d: unknown instruction %s\n", line_number, opcode);
