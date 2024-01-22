@@ -50,8 +50,6 @@ void op_sub(stack_t **stack, unsigned int line_number)
 	free(temp);
 }
 
-#include "monty.h"
-
 /**
  * op_div - Divides the second top element of the stack by the top element.
  * @stack: Double pointer to the head of the stack.
@@ -80,5 +78,31 @@ void op_div(stack_t **stack, unsigned int line_number)
 	*stack = (*stack)->next;
 	(*stack)->n = quotient;
 	(*stack)->prev = NULL;
+	free(temp);
+}
+
+/**
+ * op_mul - Multiplies the second top element of the stack with the top element.
+ * @stack: Double pointer to the head of the stack.
+ * @line_number: The line number of the current operation.
+ */
+void op_mul(stack_t **stack, unsigned int line_number)
+{
+	stack_t *temp;
+	int product;
+
+	if (stack == NULL || *stack == NULL || (*stack)->next == NULL)
+	{
+		fprintf(stderr, "L%d: can't mul, stack too short\n", line_number);
+		exit(EXIT_FAILURE);
+	}
+
+	product = (*stack)->next->n * (*stack)->n;
+
+	temp = *stack;
+	*stack = (*stack)->next;
+	(*stack)->n = product;
+	(*stack)->prev = NULL;
+
 	free(temp);
 }
