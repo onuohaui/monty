@@ -125,6 +125,10 @@ void process_lines(FILE *file, stack_t **stack)
 		{
 			op_rotl(stack, line_number);
 		}
+		else if (strcmp(opcode, "rotr") == 0)
+		{
+			op_rotr(stack, line_number);
+		}
 		else
 		{
 			fprintf(stderr, "L%d: unknown instruction %s\n", line_number, opcode);
