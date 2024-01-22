@@ -91,6 +91,10 @@ void process_lines(FILE *file, stack_t **stack)
 		{
 			op_add(stack, line_number);
 		}
+		else if (strcmp(opcode, "nop") == 0)
+		{
+			op_nop(stack, line_number);
+		}
 		else
 		{
 			fprintf(stderr, "L%d: unknown instruction %s\n", line_number, opcode);
