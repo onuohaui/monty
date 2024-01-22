@@ -24,3 +24,28 @@ void op_add(stack_t **stack, unsigned int line_number)
 	(*stack)->prev = NULL;
 	free(temp);
 }
+
+/**
+ * op_sub - Subtracts the top element of the stack from the second top element.
+ * @stack: Double pointer to the head of the stack.
+ * @line_number: The line number of the current operation.
+ */
+void op_sub(stack_t **stack, unsigned int line_number)
+{
+	stack_t *temp;
+	int difference;
+
+	if (stack == NULL || *stack == NULL || (*stack)->next == NULL)
+	{
+		fprintf(stderr, "L%d: can't sub, stack too short\n", line_number);
+		exit(EXIT_FAILURE);
+	}
+
+	difference = (*stack)->next->n - (*stack)->n;
+	temp = *stack;
+	*stack = (*stack)->next;
+	(*stack)->n = difference;
+	(*stack)->prev = NULL;
+
+	free(temp);
+}
