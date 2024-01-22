@@ -45,7 +45,6 @@ void open_file(char *filename, FILE **file)
 	}
 }
 
-
 /**
  * process_lines - Processes each line of the
  * opened Monty bytecode file.
@@ -83,6 +82,10 @@ void process_lines(FILE *file, stack_t **stack)
 		else if (strcmp(opcode, "pop") == 0)
 		{
 			op_pop(stack, line_number);
+		}
+		else if (strcmp(opcode, "swap") == 0)
+		{
+			op_swap(stack, line_number);
 		}
 		else
 		{
