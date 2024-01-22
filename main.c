@@ -107,6 +107,10 @@ void process_lines(FILE *file, stack_t **stack)
 		{
 			op_mul(stack, line_number);
 		}
+		else if (strcmp(opcode, "mod") == 0)
+		{
+			op_mod(stack, line_number);
+		}
 		else
 		{
 			fprintf(stderr, "L%d: unknown instruction %s\n", line_number, opcode);
