@@ -61,7 +61,9 @@ void process_lines(FILE *file, stack_t **stack)
 	{
 		line_number++;
 		opcode = strtok(line, " \t\n");
-		if (opcode == NULL)
+
+		/*Check if the line is a comment or empty*/
+		if (opcode == NULL || opcode[0] == '#')
 		{
 			continue;
 		}
