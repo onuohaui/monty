@@ -36,6 +36,14 @@ typedef struct instruction_s
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
+typedef enum mode_e
+{
+	STACK_MODE,
+	QUEUE_MODE
+} mode_t;
+
+extern mode_t mode;  /*Define the mode as a global variable*/
+
 /* Function prototypes for opcode functions */
 void op_push(stack_t **stack, unsigned int line_number, char *arg);
 void op_pall(stack_t **stack, unsigned int line_number);
@@ -53,6 +61,8 @@ void op_pchar(stack_t **stack, unsigned int line_number);
 void op_pstr(stack_t **stack, unsigned int line_number);
 void op_rotl(stack_t **stack, unsigned int line_number);
 void op_rotr(stack_t **stack, unsigned int line_number);
+void op_stack(stack_t **stack, unsigned int line_number);
+void op_queue(stack_t **stack, unsigned int line_number);
 
 /* Utility function prototypes */
 void free_stack(stack_t **stack);
